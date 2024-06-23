@@ -1,0 +1,27 @@
+dimensionality reduction
+fact table vs dimension table and there use cases
+star vs snowflake schema and there use case scenarios
+normalizations and there use cases
+Denormalize data to reduce the complexity of joins in queries. This can improve query performance.
+Consider using cost-effective storage options like Nearline or Coldline storage for less frequently accessed data.
+Consider scaling vertically by using higher-tier machines or horizontally by distributing data across multiple shards or nodes to handle increased workloads.
+
+entity tables
+checkpointing in databricks and spark vanila
+5 V's of big data
+
+Data Warehouses: Optimal for structured data, facilitating complex SQL queries, and offering features like indexing, query optimization, and ACID compliance for reporting and analytics.
+Data Lakes: Suitable for both structured and unstructured data, allowing flexible data exploration, ad-hoc analysis, and integration with diverse analytics and machine learning tools.
+
+Encryption Protocols: Implement encryption mechanisms to protect data both at rest and in transit, using industry-standard encryption algorithms.
+Access Controls: Enforce role-based access controls (RBAC) to restrict access to sensitive data and ensure that only authorized users can view or modify data.
+Threat Detection: Deploy intrusion detection and prevention systems (IDPS) to monitor for suspicious activities and unauthorized access attempts.
+Data Masking: Apply data masking techniques to anonymize sensitive information and prevent unauthorized access to personally identifiable information (PII).
+
+SCD Type 2 in delta onprem:
+1. left join source to target
+2. filter out only chnaged record
+3. create mergekey by combining columns
+4. create null merge key only for matching records
+5. union step 3 and step 4
+6. apply merge statement
