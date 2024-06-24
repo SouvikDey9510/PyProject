@@ -21,7 +21,7 @@ df = spark.read.format("jdbc") \
     .option("upperBound", 1000) \
     .load()
 
-hdfs_location = "hdfs:///bsn/data/pnd/pnd_product_type"
+hdfs_location = "hdfs:///base/silver/app/table"
 df.write.format("parquet") \
     .mode("overwrite") \
     .save(hdfs_location)
