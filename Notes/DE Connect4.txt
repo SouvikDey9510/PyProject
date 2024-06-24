@@ -1,0 +1,38 @@
+1. Deployment
+2. CICD or any other fancy tool
+3. Databricks catalouge
+4. unit testing and types of DQ checks for data validations
+5. Can I say during interview without using the databricks ?
+6. How you have handled real time scenarios ?
+
+
+Delta Lake = parquet file + transaction logs
+Denormalize = combining tables for less joins and imporoves perfromance but increases storage
+
+What are the common challenges in GCP migrations?
+How do I estimate costs for a migration project?
+checkpoint concept in both spark and delta lake?
+
+what will happen when a cloud function fails? or a cloud schedular fails? how I can get the failed real time data or for even failed batch?
+delta tables by default uses delta tables?
+most important and frequently asked interview questions on delta tables
+can a onprem hdfs system use delta lake?
+
+Can you show me an example of using DeltaMergeBuilder for merging data in a table?
+How can I access the transaction history of a Delta table programmatically?
+What are some best practices when working with schema evolution and versioning in Delta Lake?
+How can I handle schema evolution when adding or removing columns?
+What are some common pitfalls to avoid when working with Delta Lake versioning?
+Can you explain more about the 'mergeSchema' option and its impact on table evolution?
+How can I handle schema evolution when changing data types of existing columns?
+What are some best practices for implementing time travel in Delta Lake?
+Can you explain more about the 'overwriteSchema' option and its use cases?
+How can I handle schema evolution when dropping columns from a Delta table?
+What are some considerations for managing long-term retention of historical data in time travel-enabled tables?
+Features of delta lake's schema management?
+How does Delta Lake handle concurrent writes?
+How does isolation level affect concurrency control?
+Tell me more about the transaction log in Delta Lake.
+Tungsten vs Catalyst optmizer in spark
+What are some common use cases where delta.tables is beneficial?
+Can you explain more about transactional integrity in Delta Lake?

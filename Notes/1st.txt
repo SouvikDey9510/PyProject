@@ -1,0 +1,60 @@
+df1 = project_df.groupBy("project_id").count()
+df1.show()
+mx = df1.agg(max(col("count"))).collect()[0][0]
+df2 = df1.filter(col("count") == mx).select("project_id")
+df2.show()
+
+
+window = Window.partitionBy("month", "country").orderBy(desc("month"))
+# Define the DataFrame 'df1'
+df1 = df.withColumn("trans_count", count("*").over(window)) \
+    .withColumn("approved_count", sum(when(col("state") == 'approved', 1).otherwise(0)).over(window)) \
+    .withColumn("trans_total_amount", sum("amount").over(window)) \
+    .withColumn('approved_total_amount', sum(when(col("state") == 'approved', col("amount")).otherwise(0)).over(window)) \
+    .select("month", "country", "trans_count", "approved_count", "trans_total_amount", "approved_total_amount") \
+    .distinct()
+# Show the DataFrame 'df1'
+df1.show()
+
+
+from pyspark.sql.functions import *
+data = [(121, 'US', 'approved', 1000, '2018-12-18'),
+        (122, 'US', 'declined', 2000, '2018-12-19'),
+        (123, 'US', 'approved', 2000, '2019-01-01'),
+        (124, 'DE', 'approved', 2000, '2019-01-07')]
+columns = ['id', 'country', 'state', 'amount', 'trans_date']
+df = spark.createDataFrame(data, columns)
+df = df.withColumn('trans_date', to_date(df.trans_date))
+window = Window.partitionBy("customer_id").orderBy(asc("order_date"))
+a1 = df.withColumn("rn", row_number().over(window)).filter(col("rn") == 1) \
+    .withColumn("stat",when(col("order_date") == col("customer_pref_delivery_date"), 1).otherwise(0))
+windowSpecAvg = Window.rowsBetween(Window.unboundedPreceding, Window.unboundedFollowing)
+a1 = a1.withColumn("immediate_percentage", F.round(F.avg("stat").over(windowSpecAvg)*100, 2)).select("immediate_percentage").distinct()
+a1.show()
+#immediate_percentage = a1.agg(round(avg("stat")*100, 2)).first()[0]
+#print(immediate_percentage)
+immediate_percentage = a1.agg(F.round(F.avg("stat")*100, 2)).first()[0]
+df_immediate_percentage = spark.createDataFrame([(immediate_percentage,)], ["immediate_percentage"])
+df_immediate_percentage.show()
+
+
+df1 = project_df.groupBy("project_id").count()
+mx = df1.agg(max(col("count"))).collect()[0][0]
+df2 = df1.filter(col("count") == mx).select("project_id")
+df2.show()
+
+
+-----------------------------------------------
+In PySpark DataFrame API, `.first()[0]` and `.collect()[0][0]` are used to retrieve data from a DataFrame, but they are used in slightly different contexts:
+
+- `.first()[0]`: This is used to get the first row of the DataFrame and then get the first column of that row. The `first()` function returns the first row as a Row object, and `[0]` is used to access the first column of the Row³.
+
+- `.collect()[0][0]`: The `collect()` function retrieves all elements in a DataFrame as an array of Row objects to the driver node². `[0][0]` is then used to access the first row's first column. However, using `collect()` on a large DataFrame can cause an OutOfMemory error, as it returns the entire dataset (from all workers) to the driver⁴.
+
+In summary, use `.first()[0]` when you only need the first row's data, and use `.collect()[0][0]` when you need to retrieve all the data but be aware of potential memory issues with large DataFrames²⁴.
+
+Source: Conversation with Bing, 18/1/2024
+(1) Get first element from PySpark data frame - Stack Overflow. https://stackoverflow.com/questions/72973098/get-first-element-from-pyspark-data-frame.
+(2) PySpark Collect() – Retrieve data from DataFrame - Spark By Examples. https://sparkbyexamples.com/pyspark/pyspark-collect/.
+(3) how to get first value and last value from dataframe column in pyspark?. https://stackoverflow.com/questions/56442215/how-to-get-first-value-and-last-value-from-dataframe-column-in-pyspark.
+(4) pyspark - Spark: Replace collect()[][] operation - Stack Overflow. https://stackoverflow.com/questions/68268490/spark-replace-collect-operation.

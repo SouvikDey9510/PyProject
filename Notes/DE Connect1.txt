@@ -1,0 +1,29 @@
+why all hive internal tables are external tables ? 
+
+Why mongospark connector is useless in context of parallization support ? and what could I use instead of mongo spark connetor ? and does JayDebeapi supports parallize connection ?
+
+why the maxium number of achieavel rows in any join is m x n
+
+merge into command is only available in databricks spark and in sql
+
+bridge and json with key constraint, can I do transformation on the fly on the consumer data or I need to build a other etl job setup to perform these transformation ?
+
+api to read 1 bilion data
+
+write native lowlevel code for join using python dictionary
+
+python jvm SerDe never can be stopped, even though the jvm SerDe can be stopped.
+
+multiprocess vs multithreading in context of distributed systems
+
+for total no duplicated data, left anti join is far more supirior than ~ not in operator
+
+python dict is slow because it maintains the order of insertion
+
+give me a scenario where coalesce causes data to shuffle
+
+Why in production environment while deploying a spark job, we aviod caching ?
+
+Impala is a demon
+Tez and MR is engine in hive
+Limit in hive query is useless

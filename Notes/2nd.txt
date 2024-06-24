@@ -1,0 +1,253 @@
+tell me for all kinds of the join count result, 
+assume table T1 is like:
+
+C
+--
+a
+b
+a
+c
+d
+b
+d
+b
+null
+null
+
+table T2 is like:
+
+C
+--
+a
+b
+d
+d
+b
+null
+null
+
+
+To determine the count result for each type of join between tables T1 and T2, we can use the following simple English explanations:
+
+1. **Inner Join**: Counts the number of pairs where a value in column C of T1 matches a value in column C of T2. For example, if 'a' appears 2 times in T1 and 1 time in T2, it contributes 2 to the count.
+
+2. **Left Join**: Counts all entries from T1, and for each entry in T1, it also counts a match from T2 if available. If T1 has a 'null' or a value not in T2, it still counts that entry from T1 but with no match from T2.
+
+3. **Right Join**: Counts all entries from T2, and for each entry in T2, it also counts a match from T1 if available. If T2 has a 'null' or a value not in T1, it still counts that entry from T2 but with no match from T1.
+
+4. **Full Outer Join**: Counts all entries from both T1 and T2. It includes all matches, plus any 'null' or non-matching values from both tables.
+
+5. **Cross Join**: Counts the total number of combinations between entries in T1 and T2. Every entry in T1 is paired with every entry in T2.
+
+Now, let's calculate the counts for each join type based on the provided tables:
+
+- **Inner Join**: The matching values are 'a', 'b', and 'd'. Counting the matches, we get:
+  - 'a' appears 2 times in T1 and 1 time in T2, contributing 2 to the count.
+  - 'b' appears 4 times in T1 and 2 times in T2, contributing 8 to the count.
+  - 'd' appears 2 times in T1 and 2 times in T2, contributing 4 to the count.
+  The total count for Inner Join is \(2 + 8 + 4 = 14\).
+
+- **Left Join**: We count all entries from T1 (10 entries) and add the matches from T2:
+  - 'a' matches 1 time in T2, contributing 2 to the count.
+  - 'b' matches 2 times in T2, contributing 8 to the count.
+  - 'd' matches 2 times in T2, contributing 4 to the count.
+  The total count for Left Join is \(10 + 2 + 8 + 4 = 24\).
+
+- **Right Join**: We count all entries from T2 (7 entries) and add the matches from T1:
+  - 'a' matches 2 times in T1, contributing 2 to the count.
+  - 'b' matches 4 times in T1, contributing 8 to the count.
+  - 'd' matches 2 times in T1, contributing 4 to the count.
+  The total count for Right Join is \(7 + 2 + 8 + 4 = 21\).
+
+- **Full Outer Join**: We count all entries from both T1 and T2 (10 from T1 and 7 from T2), and then subtract the matches we've double-counted:
+  - We've already counted 14 matches in the Inner Join.
+  The total count for Full Outer Join is \(10 + 7 - 14 = 3\).
+
+- **Cross Join**: We multiply the number of entries in T1 (10) by the number of entries in T2 (7):
+  The total count for Cross Join is \(10 \times 7 = 70\).
+
+These counts are based on the assumption that 'null' values do not match with each other. If 'null' values are considered to match, the counts for the outer joins would be higher. Remember, these are simplified explanations and the actual SQL query results will depend on the data within the tables and how the SQL engine handles 'null' values in joins.
+
+----------------------------------------
+
+In SQL, the `COUNT()` function is used to count rows in a table. Here's how the different variations work:
+
+- `COUNT(*)`: Counts all rows in the table, including those with `NULL` values.
+- `COUNT(1)`: Equivalent to `COUNT(*)` because `1` is a non-null constant expression. It also counts all rows.
+- `COUNT(column_name)`: Counts all non-`NULL` values in the specified column. Rows where `column_name` is `NULL` are not counted.
+
+So, to answer your question, `COUNT()` does not count `NULL` values when a specific column name is provided as an argument. However, `COUNT(*)` and `COUNT(1)` count all rows, regardless of `NULL` values¹².
+-----------------------------------------------
+ 
+ In T-SQL, if you don't have a specific column to order by, you can use a constant expression in the `ORDER BY` clause within the `OVER()` function. This essentially means that there is no specific order, and SQL Server will not guarantee any particular order of rows. Here's an example:
+
+```sql
+ROW_NUMBER() OVER (ORDER BY (SELECT NULL))
+```
+
+In this example, `(SELECT NULL)` is a constant expression that returns `NULL` for every row¹. This means that all rows are considered equal in terms of ordering, so SQL Server is free to return them in any order. 
+
+However, it's important to note that without a specific ordering, the result is not deterministic, meaning the order of rows could change between different executions of the query¹.
+
+-----------------------------------------------
+
+In PySpark DataFrame API, `.first()[0]` and `.collect()[0][0]` are used to retrieve data from a DataFrame, but they are used in slightly different contexts:
+
+- `.first()[0]`: This is used to get the first row of the DataFrame and then get the first column of that row. The `first()` function returns the first row as a Row object, and `[0]` is used to access the first column of the Row³.
+
+- `.collect()[0][0]`: The `collect()` function retrieves all elements in a DataFrame as an array of Row objects to the driver node². `[0][0]` is then used to access the first row's first column. However, using `collect()` on a large DataFrame can cause an OutOfMemory error, as it returns the entire dataset (from all workers) to the driver⁴.
+
+In summary, use `.first()[0]` when you only need the first row's data, and use `.collect()[0][0]` when you need to retrieve all the data but be aware of potential memory issues with large DataFrames²⁴.
+
+Source: Conversation with Bing, 18/1/2024
+(1) Get first element from PySpark data frame - Stack Overflow. https://stackoverflow.com/questions/72973098/get-first-element-from-pyspark-data-frame.
+(2) PySpark Collect() – Retrieve data from DataFrame - Spark By Examples. https://sparkbyexamples.com/pyspark/pyspark-collect/.
+(3) how to get first value and last value from dataframe column in pyspark?. https://stackoverflow.com/questions/56442215/how-to-get-first-value-and-last-value-from-dataframe-column-in-pyspark.
+(4) pyspark - Spark: Replace collect()[][] operation - Stack Overflow. https://stackoverflow.com/questions/68268490/spark-replace-collect-operation.
+
+-----------------------------------------------
+
+Supported join types include: 'inner', 'outer', 'full', 'fullouter', 'full_outer', 'leftouter', 'left', 'left_outer', 'rightouter', 'right', 'right_outer', 'leftsemi', 'left_semi', 'semi', 'leftanti', 'left_anti', 'anti', 'cross'.
+
+-----------------------------------------------
+
+from pyspark.sql.functions import when
+df.withColumn("new_column", when(df["existing_column"] > 0, "Positive").otherwise("Negative"))
+
+df.filter(df["existing_column"] > 0)
+orders.filter(month(col("order_date")) == 2)
+all_combinations = students.crossJoin(subjects)
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+result = df.groupBy("column_to_group_by").count()
+result = df.groupBy("column_to_group_by").agg(count("column_name")).alias("Other_Name")
+	
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+result = df.agg(
+    sum("column1").alias("sum_column1"),
+    avg("column2").alias("avg_column2"),
+    max("column1").alias("max_column1"),
+    min("column2").alias("min_column2"),
+    count("*").alias("count")
+)
+
+result.show()
+
+In PySpark, when you use aggregate functions like sum, avg, etc. without a groupBy operation, it applies the aggregate function to all rows of the DataFrame, and returns a single row DataFrame with the aggregate result.
+
+This is similar to using an aggregate function in SQL without a GROUP BY clause. For example, in SQL, you can do SELECT COUNT(*) FROM table; to get the count of all rows in the table. Similarly, in PySpark, you can do df.count() to get the count of all rows in the DataFrame.
+
+However, if you want to apply an aggregate function to each group of rows, you should use a groupBy operation followed by an agg operation. For example, df.groupBy("column").agg(sum("another_column")) will return the sum of “another_column” for each group of rows with the same “column” value.
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+result = all_combinations.join(df1, on=["student_id", "subject_name"], how="left")
+result = all_combinations.join(df1, (all_combinations["student_id"] == df1["student_id"]) & (all_combinations["subject_name"] == df1["subject_name"]), "left")
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+In PySpark, aliasing can be used in various ways when performing join operations. Here are a few examples:
+
+1. **Joining on Different Column Names**: If the columns you want to join on have different names in the two DataFrames, you can use column expressions with DataFrame aliases:
+
+    ```python
+    df1_alias = df1.alias('df1')
+    df2_alias = df2.alias('df2')
+    result = df1_alias.join(df2_alias, df1_alias['column1'] == df2_alias['column2'])
+    ```
+
+2. **Self-Join**: If you want to join a DataFrame with itself (for example, to find pairs of rows that meet some criteria), you need to use aliases to create two "copies" of the DataFrame:
+
+    ```python
+    df_alias1 = df.alias('df1')
+    df_alias2 = df.alias('df2')
+    result = df_alias1.join(df_alias2, df_alias1['column'] < df_alias2['column'])
+    ```
+
+3. **Joining More Than Two DataFrames**: If you're joining more than two DataFrames, you can use aliases to keep track of which DataFrame each column came from:
+
+    ```python
+    df1_alias = df1.alias('df1')
+    df2_alias = df2.alias('df2')
+    df3_alias = df3.alias('df3')
+    result = df1_alias.join(df2_alias, df1_alias['column'] == df2_alias['column']).join(df3_alias, df1_alias['column'] == df3_alias['column'])
+    ```
+
+4. **Column Name Disambiguation**: After joining, if there are columns in the two DataFrames with the same name, you can use aliases to disambiguate them:
+
+    ```python
+    result = df1.join(df2, df1['column'] == df2['column'])
+    result = result.withColumnRenamed('column', 'df1_column').withColumnRenamed('column', 'df2_column')
+    ```
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Sum vs Count:
+# Define window specification
+windowSpec = Window.partitionBy("customer_id").orderBy("order_date")
+# Add 'OrdersOver100' column
+Orders = Orders.withColumn("OrdersOver100", sum((Orders["amount"] > 100).cast("int")).over(windowSpec))
+Orders.show()
+
+# Define window specification
+windowSpec = Window.partitionBy("customer_id").orderBy("order_date")
+# Add 'OrdersOver100' column
+Orders = Orders.withColumn("OrdersOver100", count(when(Orders["amount"] > 100, 1)).over(windowSpec))
+Orders.show()
+
+The expression (Orders["amount"] > 100).cast("int") creates a column of 1s and 0s, where 1 indicates that the amount is greater than 100, and 0 otherwise. Then, sum adds up these 1s and 0s, effectively counting the number of times amount > 100. If we used count, it would count all rows, regardless of whether amount > 100 or not. That’s why sum is used in this context. In this code, when(Orders["amount"] > 100, 1) creates a column of 1s and nulls, where 1 indicates that the amount is greater than 100, and null otherwise. Then, count counts the number of non-null values in each window, effectively counting the number of orders over 100.
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+In PySpark, the correct method to union two DataFrames is `union()`, not `Union()`. Python is case-sensitive, so it's important to use the correct case. The `union()` method is used to merge two DataFrames of the same structure/schema¹².
+
+Here's a brief explanation of `union()`:
+
+- `union()`: This method is used to merge two DataFrames of the same structure/schema. The output includes all rows from both DataFrames and duplicates are retained¹. If the schemas are not the same, it returns an error¹. To deal with DataFrames of different schemas, you need to use `unionByName()` transformation¹.
+
+Please note that there's no `Union()` method in PySpark. If you try to use `Union()`, you will get an error because it's not a valid method.
+
+Also, it's worth mentioning that there was a `unionAll()` method in earlier versions of Spark, but it has been deprecated since Spark 2.0.0 and replaced with `union()`¹. Both `union()` and `unionAll()` in PySpark behave the same and retain duplicates¹.
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+Yes, both the SQL query and the PySpark DataFrame API code are equivalent in functionality. They both aim to select the activities from the `Friends` table that do not have the maximum or minimum count. 
+
+Here's a breakdown of what each part does:
+
+- The SQL query:
+    * The `WITH CTE AS (SELECT COUNT(*) AS cnt, activity FROM Friends GROUP BY activity)` part creates a Common Table Expression (CTE) that groups the `Friends` table by `activity` and calculates the count of each `activity`.
+    * The `SELECT activity FROM CTE WHERE cnt NOT IN (SELECT MAX(cnt) FROM CTE UNION ALL SELECT MIN(cnt) FROM CTE)` part selects the `activity` from the CTE where the count is not the maximum or minimum count.
+
+- The PySpark DataFrame API code:
+    * The `df  = df_friends.groupBy("activity").count()` part groups the `df_friends` DataFrame by `activity` and calculates the count of each `activity`.
+    * The `mx = df.agg(max("count")).collect()[0][0]` and `mn = df.agg(min("count")).collect()[0][0]` parts calculate the maximum and minimum count respectively.
+    * The `df1 = df.filter((col("count") < mx) & (col("count") > mn)).select("activity").withColumnRenamed("activity", "results")` part filters the DataFrame to select the rows where the count is not the maximum or minimum count.
+
+So, both the SQL query and the PySpark DataFrame API code are doing the same thing, just in different ways. Let me know if you need further clarification! 😊
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+Orders = Orders.withColumn("order_date", to_date(col("order_date"), "yyyy-MM-dd"))
+
+data = [(datetime.strptime("2020-05-01", '%Y-%m-%d'), "apples", 10)]
+
+[MIGHT NOT WORK]: df_orders = df_orders_temp.rdd.map(lambda row: (row[0], datetime.strptime(row[1], '%Y-%m-%d').date(), row[2], row[3], row[4])).toDF(schema_orders)
+
+
+---------------------------------------------------------------------------------------------------------------------------
+df = Orders.filter(col("invoice") > 20) \
+                .withColumn("month", date_format(col("order_date"), "yyyy-MM")) \
+                    .groupBy("month").agg(count("customer_id").alias("order_count"), countDistinct("customer_id").alias("customer_count")) \
+                        .orderBy("month")
+df.show()                    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+user_id max bw column value:  df. .groupBy("user_id").agg(max("bw").alias("biggest_window"))
+------------------------------------------------------------------------------------------------
+
+
+
+
+
+result = follow.alias('f1').join(follow.alias('f2'), col('f1.follower') == col('f2.followee')) \
+    .groupBy('f1.follower') \
+    .agg(countDistinct('f2.follower').alias('num'))
+
+
+

@@ -1,0 +1,4 @@
+1. union vs union all
+2. group by can not take joins
+3. We can not add anything or compare anythin with null
+4. Actor director and 2nd highest salary is good problem

@@ -1,0 +1,38 @@
+One Core will be processing one partition only at a time.
+In spark we only can use create and overwrite, but using dleta we can perform upsert as well.
+How broadcast join aviod shuffling of data in spark?
+Schema Inference vs Schema Enforcement in spark, which one is more efficient?
+
+Delta Lake, Mongo DB, Kafka
+
+
+2 wide tx, 1 action, 2 GB data
+3 stages, 1 job, 16 partiton or 16 tasks
+
+Why shufle hash join is preffered over shuffle merge join?
+Thin Executor vs Fat Executor
+
+Handle Data Skewness:
+1. AQE
+2. Salting
+3. Broadcast join
+4. repartiton vs coalesce
+5. dynamic allocation
+7. Hash partition
+
+How to make join run faster?
+Spark exception handling?
+What are shared variables in spark?
+greatest, least, pivot, split, regex, concat, concat_ws, explode, lit function in spark
+What is databricks catalog
+delta table vs parquet file
+how to aviod data loss using spark
+how to perform initial and incremental load in spark
+what are serializers in spark? java and kyro
+KOANTEK -> remote
+Executor with 5 cores
+
+
+
+recursive sql query
+cte vs subquery, which one is more optimize?

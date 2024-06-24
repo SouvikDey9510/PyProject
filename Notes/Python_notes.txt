@@ -1,0 +1,9 @@
+defualt constructor
+parameterized constructor
+method overriding
+method overloading is not supported in python because here we can not create two methods with same name.
+
+Python is dynamically typed, which means that the type of a variable is checked during runtime, not in advance. This allows for more flexibility in writing your code.
+Python is an interpreted language, which means that the code is not converted to machine-readable code before it is run. This makes Python ideal for scripting and rapid application development.
+Python supports generators and coroutines, which allow you to write efficient code, especially when dealing with large data sets or I/O operations.
+Python supports multiple programming paradigms, including procedural, object-oriented, and functional programming.

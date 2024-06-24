@@ -1,0 +1,55 @@
+scenarios where I need to convert my dataframe to rdd and why?
+
+tail recursion
+higher order function
+
+why python loosly typed
+python directory vs python pkg
+why we can't we make pkg (interpreted that's why can't pkg)
+wheel first unzip and then perform rest of the things
+find array length without len function, by just using while infinite loop and exception
+
+table A and table B has same records, now tell me difference between self join on A with A and inner join with A with B --> should ask, which type of self join
+
+in a spark program, we are not using any collect but it is showing OOM happend, what reason ?
+order by and sort can not run in parallel, rest of the transformation can run in parallel
+
+sql running very slow, 1st step is: check resource availavilty
+
+spark slows down only in two cases: 1. either the partition size is too big 2. or the partition size is too small.
+
+before join there is a shuffle that always happens.
+
+coalesce is actually repartiton with a flag, because coalesce even uses repartiton only as this is the native funtion availavile in spark.
+
+cache and persist is same only in spark 3.0 till we define a storage level.
+
+We should never do this, repatition(300) -> repartiton(1)
+rather we should slowly reduce the repartiton like 256 -> 128 -> 64 -> 32 -> 16 -> 8 -> 4 -> 2 -> 1
+this way only one executor won't be pulling all the data availavile in 256 executors to one.
+
+if small file issue is happening, either we should reduce the numberOfFilesPerPartiton or use repartiton to reduce the number of files in each partition.
+
+To achieve parallelism, we should use 64 MB block size instead of 128 MB, this way we will have 2 partitions = 2 tasks in 2 cores.
+
+to reduce the number of partitions, what we should use ? coalesce or repartiton ? answer is it depends on the next transformation that we will be using.
+
+Sometimes just turning off the AQE will make the jobs run faster as it does not go to optimize the job.
+
+to stage a spark to increase spark optimization we can use fake actions like df.write to write make the previous transformations run and stage.
+
+number of partitions is not always = number of tasks as spark can analyze and see if it tries to compress multiple partitions into one to perform a very simple transformation.
+
+how to use self join instead of row_number find duplicate records efficiently on a very large and complete unique dataset where each row and columns has unique values.
+
+there is no extra benifit in using bucketBy, it will only help when there is a need for it from analyzing segregated data perspective.
+
+udf get applied on row by row basis.
+
+Allocate resource asper the SLA timing
+Never go beyond 20% of total cluster resource
+10% of the executor memory will be for overhead
+For driver, keep cores always between 4 to 6 cores and memoery = total file size to process in GB/ 5
+
+When ever transformation applied it never created a dag rather than it created a lineage between rrds and action created a DAG
+Broadcast join decided on the go or run time which is by Adaptive Query Execution not spark sql engine or catalytic optimizer as said

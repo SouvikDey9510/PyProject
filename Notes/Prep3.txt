@@ -1,0 +1,71 @@
+broadcast join is also known as map side join and broadcast hash join |spark.conf.set("spark.sql.autoBroadcastJoinThreshold", "16777216")  # 16MB
+sort merge join | spark.conf.set("spark.sql.join.preferSortMergeJoin", "true")
+shuffle has join | spark.conf.set("spark.sql.join.preferSortMergeJoin", "false"), spark.conf.set("spark.sql.autoBroadcastJoinThreshold", "-1")
+Broadcast Nested Loop Join
+Cartesian Product Join
+
+In narrow transformation, the number of partitions, before and after a transformation remains the same only.
+spark core api and higher level api, and the differences between them
+when a action is hit, a dag starts to execute.
+If we have 15 partitions, then it will create a total of 16 tasks, 1 for Driver and 1 for each partitions.
+seralized provides better compression.
+---------------
+Control and Metadata table
+Is normalization good or bad for transactional DB.
+When we perform / go up to the normalization?
+Star vs Snowflake, which one suited for Transaction and Which one suited for Reporting?
+OBT (one big table) approach
+sort aggregator vs hash aggregator in spark
+dynamic partition prunning
+Data locality
+deserealized and seralized storage levels
+which is the optimiza way while creating a dataframe? inferSchema or enforce the schema?
+how many ways I can define schema in pyspark?
+------------------------------------
+Data Cleansing:
+
+remove null,
+remove duplicates
+handle missing age value by taking avg
+for list type column, check if anything in list is having not exisitng values
+------------------
+
+Suppose I have a on-premise Oracle Database, where a lot of transactions are happening like insert, update and delete. How can I reflect these changes in a live dashboard? So basically in simple words, the main requirement is, create a pyspark data pipeline, that will first take the data in live stream manner, then I need to place the data in HDFS, after that maybe we will have some aggregation then finally it will show it in the live dashboard.
+
+
+
+
+how fault tolerence works in spark and map reduce
+If we cache a dataframe, in which memory it gets stored? -> on-heap memory
+JSON data, JSON falttening, JSON one row array where we have all the column names
+PII tokenization
+
+Give me a scenario where we have to use only and only bucketing and partitioning will not work at all
+
+As we know, ypes of NoSQL databases
+1. Key-value pair.
+2. Document-oriented.
+3. Column-oriented.
+4. Graph-based.
+5. Time series. 
+
+Now give me exact secnario or cases where only Time series nosql database will be approperiate and also give the justification that why no other type of nosql database won't work at all for that secanario, and also tell me one by one why no RDBMs system, hazelcast, redis, memcached and ehcache will not at all for that case.
+
+
+Give me a secanario where a in memory data grid (IMDGs) solution will only work and any nosql database or RDBMs will fail. Give me the justification one by one that why a RDBMs and any type of nosql database (1. Key-value pair,
+2. Document-oriented,
+3. Column-oriented,
+4. Graph-based,
+5. Time series ) will fail. 
+
+give me a exact big data scenario where only apache kafka will be applicable and any other data solution like IMDGs, NoSQL and RDBMs will not work at all and will aboslutely fail.
+
+
+
+
+
+
+
+
+All types of file compression techiques and when to use which one.
+

@@ -1,0 +1,54 @@
+range partitioning, list partitioning, and hash partitioning
+What are some best practices for managing wide transformations and data shuffling in Spark?
+Can you explain more about DAG (Directed Acyclic Graph) scheduling and how it relates to stages in Spark?
+How can I optimize the number of stages in my Spark job?
+
+
+designing principles in datawarehousing
+
+surrogate key, refferential key, natural key
+
+List of all spark config propertions and why we we use it in one line, in a tabular format
+list of all the configs and formats and options available in spark while write a dataframe
+list of all the configs and formats and options available in spark read a dataframe
+list of all the configs and options available while creating a spark session
+
+list of all the methods that we can use while creating a spark session
+
+Static vs Dynamic Allocation in Spark and how to define it?
+
+what is the default partitioning strategy is spark and how to change it?
+what is speculative executuon in spark?
+
+Discuss Spark Optimization based on:
+1. spark.sql.shuffle.partitions vs spark.default.parallelism
+2. spark serialization (network data transafer, byte format) -> kryo serializer (faster), java serializer (by default)
+3. Use of Cache and Persist
+4. Use of Dynamic Allocation
+4. Enable AQE for safer joins and data skewness
+5. Use Coalesce over Partition
+6. Disable DEBUG & INFO Logging
+7. Use Repartition rather than Coalesce while reducing the partition number to avoid data skewness
+8. Filter as much as data possible before joins or any operations to reduce the load of computation on the cluster.
+9. Hash partition to distribute the keys uniformly
+10. Use DPP to pick relevant partitions to reduce unnecessary computation
+
+How kryo serialzier works deifferetly than java serializer in spark? give a scenario where kryo serializer will work the best and not the java serializer and give me an another scenario where java serializer will work the best, but not the kryo serializer.
+cache is neither a transformation, nor an action. It only work when an action is called. How and why?
+
+Tell me about broadcast join and how it creates hash tables and distributes that to all the worker nodes?
+From which spark version we have the AQE feature? How and when and why I should use it?
+Wordcount program using pyspark in various ways with RDD and DF.
+Hadoop Architecture
+Resource Manager vs Application Master
+Hive architecture and how it executes
+CountByValue vs ReduceByKey
+Shuffling and Partitioning in MapReduce
+DataLake vs DataLakeHouse
+Row based and Column Based file formats and there use cases
+Number of stages = number of wide transformation + 1
+
+
+What is default partitioning in spark ? [If we have a file which is less than 128 MB, let's assume 120 MB, then how many partition will be created? Given that 128 MB is the default block size]
+For spark or MR, the number of default partition is 2.
+Join optimization strategy for two very big tables

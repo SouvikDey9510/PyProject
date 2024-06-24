@@ -1,0 +1,58 @@
+What provison concurrency and How to handle provison concurrency in GCP?
+
+offheap memory used as a last resort save our pyspark job from going into out of memory error.
+Hive SerDe property, File formats, which one row based and which one is column based, defualt compression formats
+
+Multiple pyspark jobs which are supposed to run one after another like JobA -> JobB -> JobC. But unfortunately due to bad data, the JobB got failed and now we need to load the JobB bad/rejected data in a file and stop the JobC and need to write in the output log that "due to bad data, the execution of jobC won't be possible". Now how to handle this multi job dependancy kind of scenario in autosys ?
+
+Supoose we have a Sql Server DB where data in a table is loading incrementally and now I want load this incremental data in a Hive external table, how to solve this scenario using JayDeBeApi and pyspark, and assume that the sql server table has a timestamp column?
+
+
+-------
+To auto map columns with spark and hive, which properties I need to enable in hive?
+spark vanila cache vs databricks delta cache
+optmize vs vaccume command in databricks delta tables
+how history stored in delta tables -> inform of snapshots
+databricks merge into command
+databricks z-ordering
+databricks liquid clustering
+databricks only has the display method, otherwise in vanila edition, we need to use show method.
+
+I have to very big tables, and I want to perform broadcast join on them, how would I perform? -> bucketing
+when we cache a df, it get stored in the memory, but spark already is a in memory process, then how cache helpes in optmizing?
+What I need to do when AQE is also not working on uneven partitions of a dataframe? -> salting technique
+continuous deployment vs triggered deployment in delta live table
+change data feed feature in databricks delta table
+ADF performance and cost optmization
+Auto run time vs self hosted integrated run time in ADF
+tumbling window trigger in ADF
+
+Data locality principle in spark
+Mapping dataflow vs wrangling dataflow in ADF (transformation procedures)
+Assume we have a spark job where we have 2 wide transformations, 1 action and we are processing 2 GB of data. Then how many stages, jobs and tasks will be created?
+bottlenecks/practical issues
+formula in spark for a given a cluster configs and size of data, estimate the job running time
+
+We have new csv file coming on a daily basis in "/landing/outbound/data" location in unix and I need to load this data incrementally through upsert operation in hive/delta table, who to do that using pyspark?
+The delta table should do some kind of upsert operation
+Perform this incremental data load through ADF
+
+
+Assume we have 1000 GB of data, to process this much of data, how many nodes, executor, executor memroy and executor core I should have? What kinda of databricks cluster shall I choose?
+
+Balance on maximum parallelsim, no out of memory issue and no idle executor/node
+
+Delta file vs parquet file format
+------------------
+When we are joining two tables in a RDBMs, we should not use inner join, rather we should use left join, keeping the important table at the left, this way we won't lose any data and not matching records can be identified with just is null sql function.
+
+Infra level Maintanance Activities in DWH [defragment the data and chooses optimal query path, for faster query execution]:
+1. Update Statistics
+2. Rebuildig indexes
+
+Which kind of table is more preffered for aggregated reporting style, wide table or a long table? (wide table)
+Master Data vs Transaction Data
+
+MongoDB:
+1. CAP Theorem
+2. Partition Tolerance

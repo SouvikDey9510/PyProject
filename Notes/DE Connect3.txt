@@ -1,0 +1,4 @@
+What we do with the bad files ?
+Spark in hive can not perform optmization
+Oracle can not establish connection with sqoop as it does not allow inbound connection
+We can whitelist the GCP ip and then onprem system with the help of .sh file or some utility, send data to GCS. But this process should happen one time and that too for historical data archival, not for daily file process. And the pipeline should be like this, there will be one job that will be running on the GCP which will first bring the data to onprem to GCS and then another job that will copy the data to BQ native storage to perform high volume data analytics. The reason we use BQ native storage is because external table performs very poorly in BQ. We will be using cloud function to trigger the job in airflow in cloud composer.

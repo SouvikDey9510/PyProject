@@ -1,0 +1,61 @@
+from pyspark.sql.functions import col
+
+# Assuming df is your DataFrame
+df1 = df.alias('df1')
+df2 = df.alias('df2')
+df3 = df.alias('df3')
+df4 = df.alias('df4')
+
+# Direct reports
+direct_reports = df2.filter(col('manager_id') == 1)
+
+# Indirect reports (up to 3 levels)
+indirect_reports = df1.join(df2, df1['manager_id'] == df2['employee_id'], 'inner')\
+                      .join(df3, df2['manager_id'] == df3['employee_id'], 'left')\
+                      .join(df4, df3['manager_id'] == df4['employee_id'], 'left')
+
+# Filter indirect reports to those that eventually report to the head of the company
+indirect_reports = indirect_reports.filter((col('df2.manager_id') == 1) | 
+                                           (col('df3.manager_id') == 1) | 
+                                           (col('df4.manager_id') == 1))
+
+# Combine direct and indirect reports
+all_reports = direct_reports.select('employee_id').union(indirect_reports.select('df1.employee_id'))
+
+# Remove duplicates
+all_reports = all_reports.distinct()
+
+# Show the result
+all_reports.show()
+
+######################################################################################################################################################
+
+from pyspark.sql.functions import col
+
+# Assuming df is your DataFrame
+df1 = df.alias('df1')
+df2 = df.alias('df2')
+df3 = df.alias('df3')
+df4 = df.alias('df4')
+
+# Direct reports
+direct_reports = df2.filter(col('df2.manager_id') == 1)
+
+# Indirect reports (up to 3 levels)
+indirect_reports = df1.join(df2, col('df1.manager_id') == col('df2.employee_id'), 'inner')\
+                      .join(df3, col('df2.manager_id') == col('df3.employee_id'), 'left')\
+                      .join(df4, col('df3.manager_id') == col('df4.employee_id'), 'left')
+
+# Filter indirect reports to those that eventually report to the head of the company
+indirect_reports = indirect_reports.filter((col('df2.manager_id') == 1) | 
+                                           (col('df3.manager_id') == 1) | 
+                                           (col('df4.manager_id') == 1))
+
+# Combine direct and indirect reports
+all_reports = direct_reports.select('df2.employee_id').union(indirect_reports.select('df1.employee_id'))
+
+# Remove duplicates
+all_reports = all_reports.distinct()
+
+# Show the result
+all_reports.show()
